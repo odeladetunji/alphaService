@@ -33,7 +33,7 @@ app.use('/retriveBalance', retriveBalance);
 app.use('/getTransactionHistory', transactionHistory);
 
 server.listen(8025, function(){
-    console.log("Second Api is now Running");
+    console.log("AlphaService Gateway/Authentication Server is Running");
 });
 
 module.export = app;
