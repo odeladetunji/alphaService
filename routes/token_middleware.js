@@ -10,6 +10,7 @@ let verifyUser = (req, res, next) => {
         res.sendStatus(403);
     }
 }
+
 //exporting module 
 module.exports = {
     verifyUser: verifyUser
