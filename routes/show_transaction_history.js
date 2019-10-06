@@ -3,15 +3,25 @@ const express = require('express');
 const router = express.Router();
 require('body-parser');
 const fetch = require('node-fetch');
+const authenticateUser = require('./token_middleware');
+const jwt = require('jsonwebtoken');
 
-router.get('/', (req, res) => {
+router.get('/',  authenticateUser.verifyUser, (req, res) => {
     //node-fetch api;
-    fetch('http://localhost:8011',{
-       method: 'GET',
-       header: {'Content-Type': 'application/json'}
-    }).then(response => {
-        res.send(response);
-    });
+    let apiCall = () => (
+        fetch('http://localhost:8011/transactionHistory',{
+        method: 'GET',
+        header: {'Content-Type': 'application/json'}
+        }).then(response => {
+            res.send(response);
+        })
+    );
+
+    jwt.verify(req.token, 'private_key', (err, outhData) => {
+        if (err) throw err;
+        if(!err) apiCall();
+    })
+    
 });
 
 module.exports = router;
