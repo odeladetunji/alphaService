@@ -6,8 +6,7 @@ const cors = require('cors');
 const path = require('path');app.use('*', cors());
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const jwt = require('jsonwebtoken');
-
+var timeout = require('connect-timeout');
 // requiring routes!
 const add_money = require('./routes/add_money');
 const remove_money = require('./routes/remove_money');
@@ -20,7 +19,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
-
+app.use(timeout('10s'));
 // parse application/json
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -37,4 +36,21 @@ server.listen(8025, function(){
 });
 
 module.export = app;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

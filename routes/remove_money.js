@@ -8,19 +8,32 @@ const jwt = require('jsonwebtoken');
 
 router.post('/',  authenticateUser.verifyUser, (req, res) => {
     //node-fetch api;
-    let apiCall = () => (
-        fetch('http://localhost:9000/remove_money',{
-           method: 'POST',
-           header: {'Content-Type': 'application/json'},
-           body: { amountToWidthraw: req.body.amountToWidthraw }
-        }).then(response => { 
-           res.send(response);
-        })
-    );
 
     jwt.verify(req.token, 'private_key', (err, outhData) => {
         if (err) throw err;
-        if(!err) apiCall();
+        if(!err){
+            jwt.verify(req.token, 'private_key', (err, outhData) => {
+                if (err) throw err;
+                if(!err) {
+                    apiCall();
+                    async function apiCall() {
+                       const getApi = await fetch('http://localhost:9000/remove_money',{
+                            mode: 'cors',
+                            method: 'POST',
+                            header: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({ amountToWidthraw: req.body.amountToWidthraw })
+                       });
+                        
+                       const data = await getApi.json();
+        
+                       res.send(data);
+                    }
+        
+                    apiCall();
+                    
+                }
+            })
+        }
     })
 });
 
