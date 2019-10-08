@@ -7,14 +7,10 @@ const authenticateUser = require('./token_middleware');
 const jwt = require('jsonwebtoken');
 
 router.get('/',  authenticateUser.verifyUser, (req, res) => {
-  
-    jwt.verify(req.token, 'private_key', (err, outhData) => {
-        if (err) throw err;
-        if(!err) {
             jwt.verify(req.token, 'private_key', (err, outhData) => {
                 if (err) throw err;
                 if(!err) {
-                    apiCall();
+                    // apiCall();
                     async function apiCall() {
                        const getApi = await fetch('http://localhost:8011/transactionHistory',{
                             mode: 'cors',
@@ -31,9 +27,6 @@ router.get('/',  authenticateUser.verifyUser, (req, res) => {
                     
                 }
             })
-        }
-
-    })
 });
 
 module.exports = router;

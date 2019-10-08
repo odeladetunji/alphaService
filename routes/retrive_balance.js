@@ -14,14 +14,14 @@ router.get('/',  authenticateUser.verifyUser, (req, res) => {
             jwt.verify(req.token, 'private_key', (err, outhData) => {
                 if (err) throw err;
                 if(!err) {
-                    apiCall();
+                    // apiCall();
                     async function apiCall() {
                        const getApi = await fetch('http://localhost:8011/retriveBalance',{
                             mode: 'cors',
                             method: 'GET',
                             header: {'Content-Type': 'application/json'},
                        });
-                        
+                    
                        const data = await getApi.json();
         
                        res.send(data);
